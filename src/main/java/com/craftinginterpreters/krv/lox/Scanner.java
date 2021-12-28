@@ -159,7 +159,7 @@ public class Scanner {
                     identifier();
                 } else {
                     // Error for each character is bad
-                    Lox.error(line, "Unexpected character.");
+                    Lox.error(line, "Unexpected character. : " + c);
                 }
                 break;
         }

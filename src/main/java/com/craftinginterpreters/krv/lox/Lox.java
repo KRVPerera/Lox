@@ -23,7 +23,7 @@ public class Lox {
         }
     }
 
-    private static void runFile(String path) throws IOException {
+    public static void runFile(String path) throws IOException {
         byte[] bytes = Files.readAllBytes(Paths.get(path));
         run(new String(bytes, Charset.defaultCharset()));
 
@@ -44,9 +44,9 @@ public class Lox {
         }
     }
 
-    private static void run(String source) {
+    public static void run(String source) {
         Scanner scanner = new Scanner(source);
-        List<Token> tokens = scanner.scannerTokens();
+        List<Token> tokens = scanner.scanTokens();
 
         for (Token token : tokens) {
             System.out.println(token);

@@ -138,6 +138,14 @@ public class Scanner {
                 if (match('/')) {
                     // A comment goes until the end of line
                     while (peek() != '\n' && !isAtEnd()) advance();
+                } else if (match('*')) {
+                    // block comment goes until you see '*/'
+                    while(peek() != '*' && peekNext() != '/' && !isAtEnd()) {
+                        if (peek() == '\n') line++;
+                        advance();
+                    }
+                    advance(); // consume '*'
+                    advance(); // consume '/'
                 } else {
                     addToken(SLASH);
                 }

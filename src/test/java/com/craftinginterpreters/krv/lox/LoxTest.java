@@ -12,7 +12,11 @@ class LoxTest {
 
     @Test
     void test1() throws IOException {
-//        Lox.runFile("src/test/resources/com/craftinginterpreters/krv/lox/global.lox");
+        Lox.runFile("src/test/resources/com/craftinginterpreters/krv/lox/global.lox");
     }
 
+    @Test
+    void testMain() throws IOException {
+        Lox.main(new String[]{});
+    }
 }

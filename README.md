@@ -3,3 +3,7 @@ This repository is Lox language interpreter created by following the book **Craf
 
 This is the online version of the book : [Crafting Interpreters](https://craftinginterpreters.com/contents.html 
 "Crafting Interpreters")
+
+
+Currently on 
+- [ ] 5.2 Implementing Syntax Trees

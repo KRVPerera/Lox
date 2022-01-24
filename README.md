@@ -6,4 +6,6 @@ This is the online version of the book : [Crafting Interpreters](https://craftin
 
 
 Currently on 
-- [ ] 5.2 Implementing Syntax Trees
+- [x] 5.2 Implementing Syntax Trees
+- [x] 5.3.2 The Visitor pattern
+- [ ] 5.4. A 

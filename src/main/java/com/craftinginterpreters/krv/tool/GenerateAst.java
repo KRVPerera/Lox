@@ -33,6 +33,8 @@ public class GenerateAst {
         writer.println();
         writer.println("abstract class " + baseName + " {");
 
+        defineVisitor(writer, baseName, types);
+
         // The AST classes.
         for (String type : types) {
             var splits = type.split(":");
@@ -41,32 +43,56 @@ public class GenerateAst {
             defineType(writer, baseName, className, fields);
         }
 
+        writer.println("\tabstract <R> R accept(Visitor<R> visitor);");
+
+        // end of the base class
         writer.println("}");
         writer.close();
     }
 
+    private static void defineVisitor(PrintWriter writer, String baseName, List<String> types) {
+        writer.println("\n    interface Visitor<R> {\n");
+
+        for (String type : types) {
+            String typeName = type.split(":")[0].trim();
+            writer.println("        R visit" + typeName + baseName + "(" + typeName + " " +
+                    baseName.toLowerCase() + ");");
+            writer.println();
+        }
+
+        writer.println("    }\n");
+    }
+
     private static void defineType(PrintWriter writer, String baseName, String className, String fieldList) {
-        writer.println(" static class " + className + " extends " + baseName + " {");
+        writer.println("\tstatic class " + className + " extends " + baseName + " {\n");
 
         // ctor
-        writer.println("\t" + className + "(" + fieldList + ") {");
+        writer.println("\t\t" + className + "(" + fieldList + ") {");
 
         // Store parameters in fields
         String[] fields = fieldList.split(", ");
         for (String field : fields) {
             String name = field.split(" ")[1];
-            writer.println("\t\tthis." + name + " = " + name + ";");
+            writer.println("\t\t\tthis." + name + " = " + name + ";");
         }
 
         // ctor end
-        writer.println("\t}");
+        writer.println("\t\t}");
+
+        // Visitor pattern
+        writer.println();
+        writer.println("\t\t@Override");
+        writer.println("\t\t<R> R accept(Visitor<R> visitor) {");
+        writer.println("\t\t\treturn visitor.visit" + className + baseName + "(this);");
+        writer.println("\t\t}");
 
         // Fields
         writer.println();
         for (String field : fields) {
-            writer.println("\tfinal " + field + ";");
+            writer.println("\t\tfinal " + field + ";");
         }
 
-        writer.println("\t}");
+        writer.println();
+        writer.println("\t}\n");
     }
 }

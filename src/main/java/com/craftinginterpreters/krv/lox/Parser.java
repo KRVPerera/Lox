@@ -24,6 +24,12 @@ import static com.craftinginterpreters.krv.lox.TokenType.TRUE;
 
 public class Parser {
 
+    private Token consume(TokenType type, String message) {
+        if (check(type)) return advance();
+
+        throw error(peek(), message);
+    }
+
     private final List<Token> tokens;
     private int current = 0;
 
@@ -119,6 +125,11 @@ public class Parser {
         return false;
     }
 
+    private Exception error(Token token, String message) {
+        Lox.error(token, message);
+        return new ParseError();
+    }
+
     private boolean check(TokenType type) {
         if (isAtEnd()) return false;
         return peek().type == type;
@@ -141,4 +152,7 @@ public class Parser {
         return tokens.get(current - 1);
     }
 
+    private static class ParseError extends RuntimeException {
+
+    }
 }
